@@ -27,7 +27,7 @@ export default function Thedock({configuration, style, setpercentage, percentage
         },
         icon: {
             position: 'absolute',
-            transition: '0.15s'
+            transition: '0.1s'
         }
     }
 
@@ -37,19 +37,19 @@ export default function Thedock({configuration, style, setpercentage, percentage
         if(percentage == 1.1){
             setTimeout(() => {
                 setpercentage(0.9)
-            }, 150);
+            }, 100);
         }else if(percentage == 0.9){
             setTimeout(() => {
                 setpercentage(1.05)
-            }, 150);
+            }, 100);
         }else if(percentage == 1.05){
             setTimeout(() => {
                 setpercentage(0.95)
-            }, 150);
+            }, 100);
         }else if(percentage == 0.95){
             setTimeout(() => {
                 setpercentage(1)
-            }, 150);
+            }, 100);
         }
         // else if(percentage == 1.1){
         //     setTimeout(() => {

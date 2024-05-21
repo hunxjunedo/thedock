@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-export default function Thedock({configuration, style, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition}){
+export default function Thedock({configuration, style, iconHeight, iconWidth, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition}){
 
     //STATES
     const [heigth, setheight] = useState(0)
@@ -27,7 +27,9 @@ export default function Thedock({configuration, style, maxBoxes, autoArrange, co
         },
         icon: {
             position: 'absolute',
-            transition: '0.1s'
+            transition: '0.1s',
+            width: iconWidth,
+            heigth: iconHeight
         }
     }
 
@@ -72,6 +74,8 @@ export default function Thedock({configuration, style, maxBoxes, autoArrange, co
     let boxwidth = standard_width / maxBoxes 
     //height of box = width of box
     let standard_height = document.querySelector('.thedock_container').clientHeight
+    let boxHeight = standard_height / configuration.length
+    console.log(boxHeight, standard_height)
     //so each box in any row will have this clientWidth, now get the coords of the container
     let containerXstart = document.querySelector('.thedock_container').offsetLeft;
     let containerXend = containerXstart + standard_width;
@@ -93,8 +97,11 @@ export default function Thedock({configuration, style, maxBoxes, autoArrange, co
             //x coordinate
             currentCoordinates.push(firsticonstart + boxwidth/2 + a*boxwidth)
             //y coordinate
-            currentCoordinates.push(containerYstart + boxwidth/2 + rowindex*boxwidth)
+            currentCoordinates.push(containerYstart + boxHeight/2 + rowindex*boxHeight)
             allcords.push(currentCoordinates)
+            console.log(containerYstart)
+            console.log(currentCoordinates)
+
         }
         // allcords.push(rowCords)
 
@@ -103,33 +110,47 @@ export default function Thedock({configuration, style, maxBoxes, autoArrange, co
     //now begin preparing the icons and thier positions
     let coords = [];
     let alignment = []
+    let directionx = 0;
+    let directiony = 0;
     if(startingPosition === 'top-left'){
         coords = [containerXstart + 0, containerYstart + 0];
         alignment = ['start', 'start'];
+        directionx = -1;
+        directiony = -1
     }else if(startingPosition === 'top-center'){
         coords = [containerXstart + standard_width/2, containerYstart + 0];
         alignment = ['start', 'center'];
+        directiony = - 1
     }else if(startingPosition === 'top-right'){
         coords = [containerXstart + standard_width, containerYstart + 0];
         alignment = ['start', 'end'];
+        directiony = -1;
+        directionx = 1
     }else if(startingPosition === 'middle-left'){
         coords = [containerXstart + 0, containerYstart + standard_height/2];
         alignment = ['center', 'start'];
+        directionx = -1
     }else if(startingPosition === 'middle-center'){
         coords = [containerXstart + standard_width/2, containerYstart + standard_height/2];
         alignment = ['center', 'center'];
     }else if(startingPosition === 'middle-right'){
         coords = [containerXstart + standard_width, containerYstart + standard_height/2];
         alignment = ['center', 'end'];
+        directionx = 1
     }else if(startingPosition === 'bottom-left'){
         coords = [containerXstart + 0, containerYstart + standard_height];
         alignment = ['end', 'start'];
+        directionx = -1;
+        directiony = 1
     }else if(startingPosition === 'bottom-center'){
         coords = [containerXstart + standard_width/2, containerYstart + standard_height];
         alignment = ['end', 'center'];
+        directiony = 1
     }else if(startingPosition === 'bottom-right'){
         coords = [containerXstart + standard_width, containerYstart + standard_height];
         alignment = ['end', 'end'];
+        directionx = 1;
+        directiony = 1
     }
 
     //initialCords of all the icons are available, apply vectors anf get final coords
@@ -140,14 +161,19 @@ export default function Thedock({configuration, style, maxBoxes, autoArrange, co
         let OD = allcords[index];
         let OP = coords
         let PD = [OD[0] - OP[0], OD[1] - OP[1]];
-        PD[0] = Math.round(PD[0]);
-        PD[1] = Math.round(PD[1]);
+        //now subtract the icon's own how
+        
+
+        PD[0] = Math.round(PD[0] + directionx*iconWidth/2);
+        PD[1] = Math.round(PD[1] + directiony*iconHeight/2);
+        console.log(PD)
+
         
         
     
         //voila, now we know how much each point has to travel from P!
         return {
-            Cmpnt: ({transStyles}) => (<img style={{...stylings.icon, ...transStyles, ...iconstyles}} src={iconSRC} />),
+            Cmpnt: ({transStyles}) => (<img className="thedock_icon" style={{...stylings.icon, ...transStyles, ...iconstyles}} src={iconSRC} />),
             destiny: PD
         }
     })
@@ -157,7 +183,7 @@ export default function Thedock({configuration, style, maxBoxes, autoArrange, co
     setAllIconsDestiny(allIconsOnDestiny)
     setheight(standard_height)
     
-    }, [configuration, containerWidth, icons, startingPosition]);
+    }, [configuration, containerWidth, icons, startingPosition, containerHeight]);
 
 
 

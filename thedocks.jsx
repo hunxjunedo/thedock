@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-export default function Thedock({configuration, style, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition}){
+export default function Thedock({configuration, style, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition}){
 
     //STATES
     const [heigth, setheight] = useState(0)
@@ -17,13 +17,13 @@ export default function Thedock({configuration, style, setpercentage, percentage
     const stylings = {
         main: {
             width: containerWidth,
-            border: '1px solid red',
             borderRadius: 20,
             marginLeft: 1,
-            height: heigth,
+            height: containerHeight,
             display: 'grid',
             alignItems: alignment[0],
-            justifyItems: alignment[1]
+            justifyItems: alignment[1],
+            backdropFilter: 'blur(4px)'
         },
         icon: {
             position: 'absolute',
@@ -71,7 +71,7 @@ export default function Thedock({configuration, style, setpercentage, percentage
     let standard_width = document.querySelector('.thedock_container').clientWidth;
     let boxwidth = standard_width / maxBoxes 
     //height of box = width of box
-    let standard_height = boxwidth * configuration.length 
+    let standard_height = document.querySelector('.thedock_container').clientHeight
     //so each box in any row will have this clientWidth, now get the coords of the container
     let containerXstart = document.querySelector('.thedock_container').offsetLeft;
     let containerXend = containerXstart + standard_width;
@@ -157,7 +157,7 @@ export default function Thedock({configuration, style, setpercentage, percentage
     setAllIconsDestiny(allIconsOnDestiny)
     setheight(standard_height)
     
-    }, []);
+    }, [configuration, containerWidth, icons, startingPosition]);
 
 
 

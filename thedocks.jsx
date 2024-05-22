@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-export default function Thedock({ configuration, showText, texts, style, iconHeight, iconWidth, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition }) {
+export default function Thedock({ configuration, textstyles, showText, texts, style, iconHeight, iconWidth, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition }) {
 
     //STATES
     const [heigth, setheight] = useState(0)
@@ -204,7 +204,7 @@ export default function Thedock({ configuration, showText, texts, style, iconHei
                 Cmpnt: ({ transStyles, text }) => (
                 <div className="box" style={{...transStyles, ...stylings.box, height: boxHeight, width: boxwidth}}>
                     <img className="thedock_icon" style={{ ...stylings.icon, maxWidth: boxwidth, maxHeight: boxHeight,  ...iconstyles }} src={iconSRC} />
-                    {showText ?  <p style={{margin: 0, padding: 0, fontSize: 10}}>{text}</p> : ''}
+                    {showText ?  <p style={{margin: 0, padding: 0, ...textstyles}}>{text}</p> : ''}
                 </div>),
 
                 destiny: PD,
@@ -223,7 +223,7 @@ export default function Thedock({ configuration, showText, texts, style, iconHei
 
 
     return (
-        <div refr={allIconsDestiny} style={{ ...stylings.main, ...style }} className="thedock_container">
+        <div  style={{ ...stylings.main, ...style }} className="thedock_container">
             {
                 allIconsDestiny.map(({ Cmpnt, destiny, text }) => {
                     return (<Cmpnt

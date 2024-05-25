@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-export default function Thedock({ configuration, ar, textstyles, marginForText, showText, texts, style, iconHeight, iconWidth, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition }) {
+export default function Thedock({ configuration, ar, textstyles, marginForText, showText, texts, style,  iconWidth, maxBoxes,  containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition }) {
 
     //STATES
     const [heigth, setheight] = useState(0)
@@ -7,119 +7,17 @@ export default function Thedock({ configuration, ar, textstyles, marginForText, 
     const [allIconsDestiny, setAllIconsDestiny] = useState([]);
 
 
-
+    //FUNCTIONS
+    
+    //for max of an array
     const max = (arr) => {
         let temp = arr.map(elem => elem);
         temp.sort((a, b) => (a - b));
         return temp[temp.length - 1];
     }
 
-    //STYLES
-    const stylings = {
-        main: {
-            width: containerWidth,
-            borderRadius: 20,
-            marginLeft: 1,
-            height: heigth,
-            display: 'grid',
-            alignItems: alignment[0],
-            justifyItems: alignment[1],
-            backdropFilter: 'blur(4px)'
-        },
-        box:{
-            position: 'absolute',
-            transition: '0.1s',
-            display: 'grid',
-            justifyItems: 'center',
-            alignItems: 'center'
-        }
-    }
-
-    //the bounce
-    React.useEffect(() => {
-
-        if (percentage == 1.1) {
-            setTimeout(() => {
-                setpercentage(0.9)
-            }, 100);
-        } else if (percentage == 0.9) {
-            setTimeout(() => {
-                setpercentage(1.05)
-            }, 100);
-        } else if (percentage == 1.05) {
-            setTimeout(() => {
-                setpercentage(0.95)
-            }, 100);
-        } else if (percentage == 0.95) {
-            setTimeout(() => {
-                setpercentage(1)
-            }, 100);
-        }
-        // else if(percentage == 1.1){
-        //     setTimeout(() => {
-        //         setpercentage(0.9)
-        //     }, 20);
-        // }else if(percentage == 0.9){
-        //     setTimeout(() => {
-        //         setpercentage(1)
-        //     }, 30);
-        // }
-    }, [percentage])
-
-    //make the virtual boxes
-    React.useEffect(() => {
-        let tempconfiguration = configuration !== undefined ? configuration : [maxBoxes];
-
-
-        //auto configuration handler
-        if (!configuration && maxBoxes) {
-            configHandler(maxBoxes - 1, icons.length - maxBoxes)
-        }
-
-        //this took around an hour
-        let onePosition = false
-        function configHandler(n, max) {
-            if (max <= 0 || n < 0) {
-                return
-
-            }
-            if (max - n * 2 >= 0 && n !== 0) {
-                tempconfiguration.unshift(n);
-                tempconfiguration.push(n);
-                onePosition = n == 1
-                configHandler(n - 1, max - n * 2)
-            } else {
-                n > 1 ? configHandler(n - 1, max) : (onePosition ? tempconfiguration[0]++ : tempconfiguration.unshift(n))
-
-            }
-        }
-
-        //determine the max numebr of boxes in a row
-        let PotentiallyMaxBoxes = max(tempconfiguration);
-        //now divide this by the container's width    
-        let standard_width = document.querySelector('.thedock_container').clientWidth;
-        let boxwidth = standard_width / PotentiallyMaxBoxes
-
-
-        //height of box = width of box
-        //use the aspect ratio
-        let ratioXtoY = ar.split('/');
-        let factorForY = ratioXtoY[1] / ratioXtoY[0]
-        marginForText = showText ? marginForText : 0
-        let boxHeight = factorForY * boxwidth + marginForText
-        let standard_height = boxHeight * tempconfiguration.length
-
-
-        //so each box in any row will have this clientWidth, now get the coords of the container
-        let containerXstart = document.querySelector('.thedock_container').offsetLeft;
-        let containerXend = containerXstart + standard_width;
-        let containerYstart = document.querySelector('.thedock_container').offsetTop;
-        let containerYend = containerYstart + standard_height
-        // now begin the math
-
-
-        // row by row
-        let allcords = []
+    //to calculate the final position of each icon
+    const destinyDecider = (tempconfiguration, containerYstart, allcords, boxHeight, boxwidth, standard_width, containerXstart, containerXend) => {
         tempconfiguration.forEach((row, rowindex) => {
             //count the excess space
             // let rowCords = [];
@@ -140,8 +38,30 @@ export default function Thedock({ configuration, ar, textstyles, marginForText, 
             // allcords.push(rowCords)
 
         })
-        console.log(allcords)
-        //now begin preparing the icons and thier positions
+    }
+
+    //to determine the arrangment of icons
+    let onePosition = false
+    const configHandler = (n, max, tempconfiguration) => {
+        if (max <= 0 || n < 0) {
+            return
+
+        }
+        if (max - n * 2 >= 0 && n !== 0) {
+            tempconfiguration.unshift(n);
+            tempconfiguration.push(n);
+            onePosition = n == 1
+            configHandler(n - 1, max - n * 2)
+        } else {
+            n > 1 ? configHandler(n - 1, max) : (onePosition ? tempconfiguration[0]++ : tempconfiguration.unshift(n))
+
+        }
+    }
+
+    //to calculate the initial position of each icon, and its direction of movement
+    const spawnPlaceDecider = (startingPosition, containerXstart, containerYstart, standard_width, standard_height) => {
+
+      
         let coords = [];
         let alignment = []
         let directionx = 0;
@@ -186,6 +106,94 @@ export default function Thedock({ configuration, ar, textstyles, marginForText, 
             directionx = 1;
             directiony = 1
         }
+        return [coords, alignment, directionx, directiony]
+
+    }
+
+    //STYLES
+    const stylings = {
+        main: {
+            width: containerWidth,
+            borderRadius: 20,
+            marginLeft: 1,
+            height: heigth,
+            display: 'grid',
+            alignItems: alignment[0],
+            justifyItems: alignment[1],
+            backdropFilter: 'blur(4px)'
+        },
+        box:{
+            position: 'absolute',
+            transition: '0.1s',
+            display: 'grid',
+            justifyItems: 'center',
+            alignItems: 'center'
+        }
+    }
+
+
+    //THE BOUNCE EFFECT
+    React.useEffect(() => {
+
+        if (percentage == 1.1) {
+            setTimeout(() => {
+                setpercentage(0.9)
+            }, 100);
+        } else if (percentage == 0.9) {
+            setTimeout(() => {
+                setpercentage(1.05)
+            }, 100);
+        } else if (percentage == 1.05) {
+            setTimeout(() => {
+                setpercentage(0.95)
+            }, 100);
+        } else if (percentage == 0.95) {
+            setTimeout(() => {
+                setpercentage(1)
+            }, 100);
+        }
+    }, [percentage])
+
+    //THE MAIN MATHEMATICAL UNIT
+    React.useEffect(() => {
+        let tempconfiguration = configuration !== undefined ? configuration : [maxBoxes];
+
+        //auto configuration handler
+        if (!configuration && maxBoxes) {
+            configHandler(maxBoxes - 1, icons.length - maxBoxes, tempconfiguration)
+        }
+
+
+        //determine the max numebr of boxes in a row
+        let PotentiallyMaxBoxes = max(tempconfiguration);
+
+        //now divide this by the container's width    
+        let standard_width = document.querySelector('.thedock_container').clientWidth;
+        let boxwidth = standard_width / PotentiallyMaxBoxes
+
+
+        //height of box = width of box
+        //use the aspect ratio
+        let ratioXtoY = ar.split('/');
+        let factorForY = ratioXtoY[1] / ratioXtoY[0]
+        marginForText = showText ? marginForText : 0
+        let boxHeight = factorForY * boxwidth + marginForText
+        let standard_height = boxHeight * tempconfiguration.length
+
+
+        //so each box in any row will have this clientWidth, now get the coords of the container
+        let containerXstart = document.querySelector('.thedock_container').offsetLeft;
+        let containerXend = containerXstart + standard_width;
+        let containerYstart = document.querySelector('.thedock_container').offsetTop;
+        let containerYend = containerYstart + standard_height
+
+        //now get the destiny of each icon
+        let allcords = [];
+        destinyDecider(tempconfiguration, containerYstart, allcords, boxHeight, boxwidth, standard_width, containerXstart, containerXend)
+        
+        //now get the initial position of each icon
+        const [coords, alignment, directionx, directiony] = spawnPlaceDecider(startingPosition, containerXstart, containerYstart, standard_width, standard_height)
+
 
         //initialCords of all the icons are available, apply vectors anf get final coords
 

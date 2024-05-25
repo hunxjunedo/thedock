@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-export default function Thedock({ configuration, textstyles, showText, texts, style, iconHeight, iconWidth, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition }) {
+export default function Thedock({ configuration, ar, textstyles, marginForText, showText, texts, style, iconHeight, iconWidth, maxBoxes, autoArrange, containerHeight, setpercentage, percentage, containerWidth, iconstyles, icons, startingPosition }) {
 
     //STATES
     const [heigth, setheight] = useState(0)
@@ -20,15 +20,11 @@ export default function Thedock({ configuration, textstyles, showText, texts, st
             width: containerWidth,
             borderRadius: 20,
             marginLeft: 1,
-            height: containerHeight,
+            height: heigth,
             display: 'grid',
             alignItems: alignment[0],
             justifyItems: alignment[1],
             backdropFilter: 'blur(4px)'
-        },
-        icon: {
-            
-            height: iconHeight
         },
         box:{
             position: 'absolute',
@@ -103,15 +99,25 @@ export default function Thedock({ configuration, textstyles, showText, texts, st
         //now divide this by the container's width    
         let standard_width = document.querySelector('.thedock_container').clientWidth;
         let boxwidth = standard_width / PotentiallyMaxBoxes
+
+
         //height of box = width of box
-        let standard_height = document.querySelector('.thedock_container').clientHeight
-        let boxHeight = standard_height / tempconfiguration.length
+        //use the aspect ratio
+        let ratioXtoY = ar.split('/');
+        let factorForY = ratioXtoY[1] / ratioXtoY[0]
+        marginForText = showText ? marginForText : 0
+        let boxHeight = factorForY * boxwidth + marginForText
+        let standard_height = boxHeight * tempconfiguration.length
+
+
         //so each box in any row will have this clientWidth, now get the coords of the container
         let containerXstart = document.querySelector('.thedock_container').offsetLeft;
         let containerXend = containerXstart + standard_width;
         let containerYstart = document.querySelector('.thedock_container').offsetTop;
         let containerYend = containerYstart + standard_height
         // now begin the math
+
+
         // row by row
         let allcords = []
         tempconfiguration.forEach((row, rowindex) => {
@@ -134,7 +140,7 @@ export default function Thedock({ configuration, textstyles, showText, texts, st
             // allcords.push(rowCords)
 
         })
-
+        console.log(allcords)
         //now begin preparing the icons and thier positions
         let coords = [];
         let alignment = []
@@ -199,12 +205,11 @@ export default function Thedock({ configuration, textstyles, showText, texts, st
 
 
             //voila, now we know how much each point has to travel from P!
-            console.log(texts[index])
             return {
                 Cmpnt: ({ transStyles, text }) => (
                 <div className="box" style={{...transStyles, ...stylings.box, height: boxHeight, width: boxwidth}}>
-                    <img className="thedock_icon" style={{ ...stylings.icon, maxWidth: boxwidth, maxHeight: boxHeight,  ...iconstyles }} src={iconSRC} />
-                    {showText ?  <p style={{margin: 0, padding: 0, ...textstyles}}>{text}</p> : ''}
+                    <img className="thedock_icon" style={{ ...stylings.icon, aspectRatio: ar, width: boxwidth, maxWidth: iconWidth === 'auto' ? 'auto' : iconWidth - 0,  height: 'auto', ...iconstyles }} src={iconSRC} />
+                    {showText ?  <p style={{...textstyles}}>{text}</p> : ''}
                 </div>),
 
                 destiny: PD,

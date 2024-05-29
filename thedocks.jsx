@@ -43,6 +43,7 @@ export default function Thedock({ configuration, ar, textstyles, marginForText, 
     //to determine the arrangment of icons
     let onePosition = false
     const configHandler = (n, max, tempconfiguration) => {
+        console.log(tempconfiguration)
         if (max <= 0 || n < 0) {
             return
 
@@ -51,9 +52,9 @@ export default function Thedock({ configuration, ar, textstyles, marginForText, 
             tempconfiguration.unshift(n);
             tempconfiguration.push(n);
             onePosition = n == 1
-            configHandler(n - 1, max - n * 2)
+            configHandler(n - 1, max - n * 2, tempconfiguration)
         } else {
-            n > 1 ? configHandler(n - 1, max) : (onePosition ? tempconfiguration[0]++ : tempconfiguration.unshift(n))
+            n > 1 ? configHandler(n - 1, max, tempconfiguration) : (onePosition ? tempconfiguration[0]++ : tempconfiguration.unshift(n))
 
         }
     }
@@ -156,7 +157,9 @@ export default function Thedock({ configuration, ar, textstyles, marginForText, 
 
     //THE MAIN MATHEMATICAL UNIT
     React.useEffect(() => {
-        let tempconfiguration = configuration !== undefined ? configuration : [maxBoxes];
+        console.log(configuration)
+        let tempconfiguration = configuration != undefined ? configuration : [maxBoxes];
+        console.log(tempconfiguration)
 
         //auto configuration handler
         if (!configuration && maxBoxes) {
@@ -216,7 +219,7 @@ export default function Thedock({ configuration, ar, textstyles, marginForText, 
             return {
                 Cmpnt: ({ transStyles, text }) => (
                 <div className="box" style={{...transStyles, ...stylings.box, height: boxHeight, width: boxwidth}}>
-                    <img className="thedock_icon" style={{ ...stylings.icon, aspectRatio: ar, width: boxwidth, maxWidth: iconWidth === 'auto' ? 'auto' : iconWidth - 0,  height: 'auto', ...iconstyles }} src={iconSRC} />
+                    <img className="thedock_icon" style={{ ...stylings.icon,  width: boxwidth, maxWidth: iconWidth === 'auto' ? 'auto' : iconWidth - 0,  height: 'auto', ...iconstyles }} src={iconSRC} />
                     {showText ?  <p style={{...textstyles}}>{text}</p> : ''}
                 </div>),
 

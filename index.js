@@ -1,1 +1,1 @@
-export {default as Thedock } from './thedock.jsx'
+export {default as Thedock} from './thedocks.jsx'

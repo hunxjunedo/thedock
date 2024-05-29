@@ -1,6 +1,6 @@
 {
   "name": "thedock",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "license": "MIT",
   "devDependencies": {
@@ -29,8 +29,7 @@
     "react-dom": "^18.3.1"
   },
   "description": "Uniform icons spread animation, accompanied by a glassy and bouncy effect. Similar to Apply Vision Pro home view, perfect for any application.",
-  "dependencies": {
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hunxjunedo/thedock.git"

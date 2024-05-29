@@ -15,9 +15,10 @@
     "@storybook/react-webpack5": "^8.1.1",
     "@storybook/test": "^8.1.1",
     "prop-types": "^15.8.1",
-    "storybook": "^8.1.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "storybook": "^8.1.1",
+    "rollup": "^4.18.0"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",
@@ -29,7 +30,8 @@
     "react-dom": "^18.3.1"
   },
   "description": "Uniform icons spread animation, accompanied by a glassy and bouncy effect. Similar to Apply Vision Pro home view, perfect for any application.",
-  "dependencies": {},
+  "dependencies": {
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hunxjunedo/thedock.git"

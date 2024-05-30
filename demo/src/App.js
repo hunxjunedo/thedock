@@ -1,6 +1,6 @@
 
 import './App.css';
-import Thedock from './Thedocks';
+import Thedock from 'thedock';
 import { useEffect, useState } from 'react';
 import ControlBar from './controlBar';
 import bgimage from './bg.jpg'

@@ -3,7 +3,7 @@ import { terser } from 'rollup-plugin-terser'
 import external from 'rollup-plugin-peer-deps-external'
 import resolve from 'rollup-plugin-node-resolve'
 
-export default [
+export default 
     {
         input: './index.js',
         output: [
@@ -23,4 +23,3 @@ export default [
             resolve()
         ]
     }
-]

@@ -1,7 +1,7 @@
-import babel from 'rollup-plugin-babel'
-import { terser } from 'rollup-plugin-terser'
-import external from 'rollup-plugin-peer-deps-external'
-import resolve from 'rollup-plugin-node-resolve'
+import babel from '@rollup/plugin-babel'
+import terser from '@rollup/plugin-terser'
+import commonjs from '@rollup/plugin-commonjs'
+import nodeResolve from '@rollup/plugin-node-resolve'
 
 export default 
     {
@@ -18,8 +18,8 @@ export default
                 presets: ['@babel/preset-react']
             }),
             {'react' : ['useState']},
-            external(),
+            commonjs(),
             terser(),
-            resolve()
+            nodeResolve()
         ]
     }

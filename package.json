@@ -19,11 +19,12 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rollup": "^4.18.0",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-terser": "^7.0.2",
-    "storybook": "^8.1.1"
+    "storybook": "^8.1.1",
+    "@babel/preset-react": "^7.24.6",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",
@@ -36,7 +37,6 @@
   },
   "description": "Uniform icons spread animation, accompanied by a glassy and bouncy effect. Similar to Apply Vision Pro home view, perfect for any application.",
   "dependencies": {
-    "@babel/preset-react": "^7.24.6"
   },
   "repository": {
     "type": "git",

@@ -8,7 +8,7 @@ export default function ControlBar({seticons, settexts, maxboxes, percentage, se
             justifyContent: 'center',
             height: ismobile ? '10vh' : 'fit-content',
             padding: ismobile ? '0 10px' : '10px 0',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(20px)',
             borderRadius: 20,
             background: 'rgb(10, 10, 10, 0.2)',
             display: 'flex',

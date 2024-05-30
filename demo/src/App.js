@@ -30,6 +30,8 @@ function App() {
   ])
   const [heading, setheading] = useState('Apps')
   const ismobile = window.innerWidth <= 600
+  const heightfactor = ismobile ? 0.4 : 0.6
+
   // useEffect(()=>(
   //   setTimeout(() => {
   //     setpercentage(1.1)
@@ -50,7 +52,7 @@ function App() {
         >
           <Thedock
             icons={icons}
-            ar={'1/0.3'}
+            ar={`${window.innerWidth}/${window.innerHeight * heightfactor }`}
             iconWidth={!ismobile ? 40 : 20}
             containerWidth={ismobile ? '80vw' : '50vw'}
             percentage={percentage}

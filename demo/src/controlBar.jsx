@@ -1,10 +1,13 @@
 import {CupSoda, Github, LayoutGrid, MoveDiagonal2, Package} from 'lucide-react'
 export default function ControlBar({seticons, settexts, maxboxes, percentage, setpercentage, setmaxboxes, icons, heading, setheading}){
     const ismobile = window.innerWidth <= 600
+    const iconssize = ismobile ? 15 : 20
     const stylings = {
         ControlBar:{
             width: ismobile ? '80vw' : '5vw',
-            height: ismobile ? '10vh' : '50vh',
+            justifyContent: 'center',
+            height: ismobile ? '10vh' : 'fit-content',
+            padding: ismobile ? '0 10px' : '10px 0',
             backdropFilter: 'blur(8px)',
             borderRadius: 20,
             background: 'rgb(10, 10, 10, 0.2)',
@@ -20,6 +23,10 @@ export default function ControlBar({seticons, settexts, maxboxes, percentage, se
             flexWrap: 'no-wrap',
             justifyItems: 'center',
             gap: 5
+        },
+        vr: {
+            height: '90%',
+            borderLeft: '1px solid gray'
         }
     }
 
@@ -72,7 +79,7 @@ export default function ControlBar({seticons, settexts, maxboxes, percentage, se
     }
     const Iconholder = ({selected, children, onClick}) => {
         return(
-            <div onClick={onClick} style={{ overflowX: ismobile ? 'scroll' : 'hidden', width: ismobile ? 'auto' : '70%', height: ismobile ? '90%' : 'auto', cursor: 'pointer', display: 'grid', alignItems: 'center', justifyItems:'center', borderRadius: 15, aspectRatio: '1/1', background: selected ? '#62bf83' : 'rgb(240, 240, 240)'}}>
+            <div onClick={onClick} style={{ overflowX: ismobile ? 'scroll' : 'hidden', width: ismobile ? 'auto' : '70%', height: ismobile ? '70%' : 'auto', cursor: 'pointer', display: 'grid', alignItems: 'center', justifyItems:'center', borderRadius: 15, aspectRatio: '1/1', background: selected ? '#62bf83' : 'rgb(240, 240, 240)'}}>
                 {children}
             </div>
         )
@@ -82,21 +89,21 @@ export default function ControlBar({seticons, settexts, maxboxes, percentage, se
             {
                 config.map(({Icon,thisheading, icons, maxBoxes, thistexts}) => (
                      <Iconholder selected={heading === thisheading} onClick={()=>{handler(thisheading, icons, maxBoxes, thistexts)}}>
-                        <Icon />
+                        <Icon size={iconssize} />
                      </Iconholder>
                 ))
             }
             {
-                ismobile ? (<hr  style={{width: '70%', transform: 'rotate(180deg)'}} />) :   ( <hr style={{width: '70%'}} />)
+                ismobile ? (<div style={stylings.vr}></div>) :   ( <hr style={{width: '70%'}} />)
             }
             <Iconholder onClick={()=>(setpercentage(1.1))} >
-            <MoveDiagonal2 />
+            <MoveDiagonal2 size={iconssize} />
             </Iconholder>
             <Iconholder onClick={()=>(redirect('gh'))} >
-            <Github />
+            <Github size={iconssize} />
             </Iconholder>
             <Iconholder onClick={()=>(redirect('npm'))} >
-            <Package />
+            <Package size={iconssize} />
             </Iconholder>
         </div>
     )

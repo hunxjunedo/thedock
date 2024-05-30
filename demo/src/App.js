@@ -57,7 +57,7 @@ function App() {
             setpercentage={setpercentage}
             maxBoxes={maxboxes}
             startingPosition={'middle-center'}
-            showText={true}
+            showText={!ismobile}
             texts={texts}
             marginForText={8}
             iconstyles={{cursor: 'pointer'}}

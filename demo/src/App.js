@@ -6,7 +6,7 @@ import ControlBar from './controlBar';
 import bgimage from './bg.jpg'
 
 function App() {
-  const [percentage, setpercentage] = useState(1)
+  const [percentage, setpercentage] = useState(0)
   const [maxboxes, setmaxboxes] = useState(4)
   const [texts, settexts] = useState([
     'App Store', 'Camera', 'Settings', 'Todo', 'Discord', 'Adobe XD', 'Adobe Illustrator', 'Netflix', 'Adobe Photoshop', 'Adobe Premier Pro', 'Safari', 'Spotify', 'VS Code', 'YouTube'
@@ -32,12 +32,12 @@ function App() {
   const ismobile = window.innerWidth <= 600
   const heightfactor = ismobile ? 0.4 : 0.6
 
-  // useEffect(()=>(
-  //   setTimeout(() => {
-  //     setpercentage(1.1)
-  //   }, 300)
+  useEffect(()=>(
+    setTimeout(() => {
+      setpercentage(1.1)
+    }, 300)
 
-  // ), [])
+  ), [])
   const stylings = {
     heading: {position: 'absolute', top: 30, float: 'center', color: 'white' },
     father: { display: 'grid', background: `url(${bgimage})`, backgroundSize: 'cover', justifyItems: 'center', overflow: 'clip', alignItems: 'center', width: '100vw', height: '100vh' },

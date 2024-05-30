@@ -53,7 +53,7 @@ function App() {
           <Thedock
             icons={icons}
             ar={`${window.innerWidth}/${window.innerHeight * heightfactor }`}
-            iconWidth={!ismobile ? 40 : 20}
+            iconWidth={!ismobile ? 40 : 30}
             containerWidth={ismobile ? '80vw' : '50vw'}
             percentage={percentage}
             setpercentage={setpercentage}
